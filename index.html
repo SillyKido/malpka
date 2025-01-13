@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>U&Me</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      background-color: #fef5ff; /* Baby pink */
+      color: black;
+      margin: 50px;
+    }
+    .progress-container {
+      width: 80%;
+      background-color: #e3f6fc; /* Baby blue */
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 20px auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .progress-bar {
+      width: 0%;
+      height: 30px;
+      background: linear-gradient(90deg, #80d0f8, #ffb3c6); /* Baby blue to baby pink gradient */
+      text-align: center;
+      line-height: 30px;
+      color: white;
+      font-weight: bold;
+      transition: width 0.5s ease-in-out, background-color 0.5s;
+    }
+    .progress-bar:hover {
+      background: linear-gradient(90deg, #ffb3c6, #80d0f8); /* Reverse gradient */
+    }
+    .button-container {
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      background-color: black;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: transform 0.2s, background-color 0.2s;
+    }
+    button:hover {
+      background-color: #ffb3c6; /* Baby pink */
+      transform: scale(1.1);
+    }
+    button:active {
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body>
+  <h1 style="color: black;">Partners Bar</h1>
+  <div class="progress-container">
+    <div class="progress-bar" id="progress-bar">0%</div>
+  </div>
+  <div class="button-container">
+    <input type="number" id="increment-value" placeholder="% to increment" style="padding: 10px; margin: 5px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;">
+    <button onclick="increaseProgress()">+ Points</button>
+    <button onclick="resetProgress()">Reset</button>
+  </div>
+
+  <script>
+    let progress = 0;
+
+    // Cargar progreso desde localStorage al cargar la página
+    window.onload = function () {
+      const savedProgress = localStorage.getItem("progress");
+      if (savedProgress !== null) {
+        progress = parseInt(savedProgress, 10);
+        updateProgressBar();
+      }
+    };
+
+    function increaseProgress() {
+      const progressBar = document.getElementById("progress-bar");
+      const incrementValue = document.getElementById("increment-value").value;
+      const increment = parseInt(incrementValue, 10);
+
+      if (isNaN(increment) || increment <= 0) {
+        alert("Por favor, introduce un número válido mayor que 0.");
+        return;
+      }
+
+      if (progress < 100) {
+        progress += increment;
+        if (progress > 100) progress = 100; // Limita el progreso al 100%
+        updateProgressBar();
+      }
+
+      if (progress === 100) {
+        alert("\u00a1Nivel Completo!");
+      }
+    }
+
+    function resetProgress() {
+      progress = 0;
+      updateProgressBar();
+    }
+
+    function updateProgressBar() {
+      const progressBar = document.getElementById("progress-bar");
+      progressBar.style.width = progress + "%";
+      progressBar.textContent = progress + "%";
+
+      // Guardar progreso en localStorage
+      localStorage.setItem("progress", progress);
+    }
+  </script>
+</body>
+</html>
